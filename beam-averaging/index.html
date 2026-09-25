@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Beam-Current Averaging</title>
+<meta name="description" content="Scrub the averaging window over a measured picoammeter baseline and watch coherent interference integrate away faster than the square-root-of-N white-noise law.">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Appendix B</p>
+    <h1>Beam-current averaging</h1>
+    <p class="lede">A picoammeter baseline on the BioTOF Faraday cup, averaged over a window of
+      <em>N</em> readings. White noise would fall as σ<sub>0</sub>/√<em>N</em>; this record falls
+      faster, because most of its noise is coherent interference that cancels within a window.</p>
+    <p class="status" id="status" role="status">Loading the record…</p>
+  </header>
+
+  <section class="controls" aria-label="Averaging window">
+    <label class="slider" for="window">
+      <span>Readings averaged, <em>N</em> <output id="n-out" class="mono">64</output></span>
+      <input type="range" id="window" min="0" max="1000" step="1" value="0">
+    </label>
+    <button type="button" id="reset">Back to N = 64</button>
+  </section>
+
+  <section class="readouts" aria-live="polite">
+    <div><span class="k">Integration time</span><span class="v mono" id="r-time">—</span></div>
+    <div><span class="k">Residual RMS</span><span class="v mono" id="r-rms">—</span></div>
+    <div><span class="k">White-noise law, σ<sub>0</sub>/√N</span><span class="v mono" id="r-ideal">—</span></div>
+    <div><span class="k">Improvement on σ<sub>0</sub></span><span class="v mono" id="r-gain">—</span></div>
+  </section>
+
+  <section class="panels">
+    <figure>
+      <div id="trace" class="plot"></div>
+      <figcaption id="cap-trace">(a) The record, mean removed, with the block means overlaid.</figcaption>
+    </figure>
+    <figure>
+      <div id="curve" class="plot"></div>
+      <figcaption>(b) Residual RMS against <em>N</em>: measured (blue) and the white-noise law (orange, dashed).</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

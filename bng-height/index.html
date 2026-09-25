@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BNG Die Topography</title>
+<meta name="description" content="Interactive height map of a Bradbury-Nielsen gate die, measured on a Keyence VHX-5000 by depth-from-focus.">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Instrument Development I</p>
+    <h1>BNG die topography</h1>
+    <p class="lede">A Bradbury–Nielsen gate die in three dimensions: the interleaved ENIG fingers,
+      the open beam slots between them and the bus pads either side, from a
+      depth-from-focus scan across the whole clear aperture.</p>
+    <p class="status" id="status" role="status">Loading the height map…</p>
+  </header>
+
+  <section class="controls" aria-label="View controls">
+    <div class="segmented" role="radiogroup" aria-label="Surface">
+      <input type="radio" name="layer" id="layer-levelled" value="levelled" checked>
+      <label for="layer-levelled">Tilt removed</label>
+      <input type="radio" name="layer" id="layer-raw" value="raw">
+      <label for="layer-raw">As measured</label>
+    </div>
+    <label class="slider" for="exaggeration">
+      <span>Vertical exaggeration <output id="exaggeration-out" class="mono">20×</output></span>
+      <input type="range" id="exaggeration" min="1" max="60" step="1" value="20">
+    </label>
+    <button type="button" id="reset-view">Reset view</button>
+  </section>
+
+  <section class="stage">
+    <figure class="surface-fig">
+      <div id="surface" class="surface" aria-label="3D height map; drag to rotate, scroll to zoom, click to pick a cross-section"></div>
+      <figcaption>Drag to rotate · scroll to zoom · <strong>click the surface</strong> to move the cross-sections.</figcaption>
+    </figure>
+
+    <aside class="side">
+      <figure>
+        <div id="plan" class="plan" aria-label="Top-down height map; click to pick a cross-section"></div>
+        <figcaption>Plan view. Gold lines mark the cross-sections below; click to move them.</figcaption>
+      </figure>
+      <figure class="micro">
+        <img src="vhx-render.jpg" alt="The microscope's own rendered 3D view of this scan: gold ENIG fingers and dark open slots">
+        <figcaption>The VHX-5000's own rendering of the same scan, as saved in the file. A picture, not aligned to the grid.</figcaption>
+      </figure>
+      <dl class="facts" id="facts"></dl>
+    </aside>
+  </section>
+
+  <section class="profiles">
+    <figure>
+      <div id="profile-across" class="profile"></div>
+      <figcaption id="cap-across">Across the fingers</figcaption>
+    </figure>
+    <figure>
+      <div id="profile-along" class="profile"></div>
+      <figcaption id="cap-along">Along a finger</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "source": {
+    "file": "test5 - large sitch.tif",
+    "sha256": "7e32c29d993cf5d7164903c2897a06fd69d8a8b4ddd777ec683823f4c1529ae9",
+    "bytes": 293235377,
+    "path": "Laboratory Notes/BNG/testing/test5 - large sitch.tif",
+    "instrument": "Keyence VHX-5000 digital microscope, depth-from-focus",
+    "reader": "scripts/thesislib/vhx.py",
+    "reducer": "scripts/supplementary/bng-height/reduce.py"
+  },
+  "grid": {
+    "rows": 345,
+    "cols": 445,
+    "dx_um": 6.941760116748595,
+    "block": 8,
+    "step_um": 0.01,
+    "masked": -32768
+  },
+  "native": {
+    "rows": 2764,
+    "cols": 3560,
+    "pixel_um": 0.8677200145935744
+  },
+  "field_um": [
+    3089.083251953125,
+    2398.378173828125
+  ],
+  "z_range_um": 34.39752960205078,
+  "tilt_deg": 0.34618566032480175,
+  "valid": 0.8965212848989415,
+  "clipped_low": 0.0020696864727659053,
+  "raw_limits_um": [
+    0.04460516571998596,
+    34.146636962890625
+  ],
+  "levelled_limit_um": 15.800278180184707,
+  "caveats": [
+    "Measured data. Heights assume the Z range stored in the file (inferred, not yet confirmed against a Keyence export).",
+    "Open slots whose floor lay below the Z scan are masked, so slot depth is a lower bound, not the die thickness.",
+    "Levelled view removes a least-squares plane (0.35 deg); it does not distinguish finger sag from die bow."
+  ]
+}

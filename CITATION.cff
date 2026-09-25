@@ -1,0 +1,31 @@
+# Read by GitHub ("Cite this repository") and by Zenodo when a release is archived.
+# Copied to the site root by scripts/supplementary/build.py -- edit it here, not in _site/.
+cff-version: 1.2.0
+message: "If you use these figures or their data, please cite them using the metadata below."
+type: dataset
+title: >-
+  Supplementary material (interactive figures) for the PhD thesis "Efficient High Speed Modulation
+  Techniques for a Sensing Application"
+abstract: >-
+  Interactive versions of figures from a PhD thesis on multiplexed
+  time-of-flight secondary ion mass spectrometry (MP-ToF-SIMS) at The University
+  of Manchester, with the reduced data each one draws. The thesis PDF is the
+  examined record and carries a static version of every figure. Each page states
+  whether its data are measured or illustrative, and records the source file,
+  its SHA-256 and the code that reduced it.
+authors:
+  - family-names: Newman
+    given-names: Mathew P.
+    affiliation: The University of Manchester
+    orcid: https://orcid.org/0000-0003-1784-3250
+license: CC-BY-4.0   # pages and data; bundled Plotly (MIT) and IBM Plex (OFL-1.1) keep their own licences
+keywords:
+  - time-of-flight secondary ion mass spectrometry
+  - ToF-SIMS
+  - multiplexing
+  - maximum-length sequences
+  - Bradbury-Nielsen gate
+  - ion beam modulation
+  - interactive figures
+repository-code: https://github.com/Thenewmanator15/mptofsims-supplementary
+url: https://thenewmanator15.github.io/mptofsims-supplementary/

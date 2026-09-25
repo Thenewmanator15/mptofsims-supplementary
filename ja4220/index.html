@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JA4220 Inverting Transformer</title>
+<meta name="description" content="The wideband transformer that inverts the detector pulse and blocks its DC: what it passes at each frequency against where the ion pulse's energy lies, what it does to the pulse, and its full four-port measurement.">
+<meta name="supp:chapter" content="Appendix A">
+<meta name="supp:kind" content="measured">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css?v=5cdff950cf">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Appendix A, pre-amplifiers</p>
+    <h1>JA4220 inverting transformer</h1>
+    <p class="lede">The small transformer between the detector and the amplifier in the ion-detection chain.</p>
+    <p class="status" id="status" role="status">Loading the measurement…</p>
+  </header>
+
+  <section class="explain" aria-labelledby="explain-h">
+    <h2 id="explain-h">What this page shows</h2>
+    <p>It asks: <strong>does the transformer pass the ion pulse intact, and what does it cost?</strong></p>
+    <p>The detector gives negative pulses, and Appendix A reports a standing DC level on its output, but
+      the converter wants positive pulses. The Coilcraft JA4220 deals with both: wired one way round it
+      turns the pulse upside down, and like any transformer it passes no DC. The price is a little signal lost in the transformer and a
+      small dip after each pulse, because it cannot pass the slowest part of the pulse.</p>
+    <table class="summary">
+      <thead><tr><th>Quantity</th><th>Value</th><th>Meaning</th></tr></thead>
+      <tbody id="summary-body"></tbody>
+    </table>
+    <ul>
+      <li><strong>The pulse's energy sits well inside the band the transformer passes</strong> (panel 1),
+        so the pulse comes through almost unchanged (panel 2).</li>
+      <li><strong>The dip it adds is small</strong>: about a fifth of the dip seen on real captured ions, so
+        the transformer is a contributor but not the main cause.</li>
+      <li>Wiring it the inverting way round costs nothing: it is slightly <em>less</em> lossy than the other way.</li>
+    </ul>
+  </section>
+
+  <section class="controls" aria-label="View">
+    <label class="slider" for="freq">
+      <span>Frequency for the port matrix <output id="freq-out" class="mono">—</output></span>
+      <input type="range" id="freq" min="0" max="800" step="1" value="400">
+    </label>
+    <div class="toggles"><label><input type="checkbox" id="full"> show up to 8.5 GHz (default stops at 3 GHz)</label></div>
+  </section>
+
+  <section class="panels">
+    <figure class="wide">
+      <div id="tx-plot" class="plot"></div>
+      <figcaption>(1) How much of the signal gets through at each frequency. Solid gold: the inverting
+        connection used in the instrument; thin: the other way round; orange: how much of a signal common to
+        both leads gets through (lower is better). Dotted grey: where the measured single-ion pulse's energy
+        lies, on its own relative scale; the ~100 ns capture resolves it only above about 10 MHz. The dashed line marks the chosen frequency; click the plot to move it.</figcaption>
+    </figure>
+    <figure>
+      <div id="pulse-plot" class="plot"></div>
+      <figcaption>(2) The average measured single-ion pulse before and after the transformer, calculated from
+        the measured response. Both are shown peak-positive and scaled to their own peak, so the inversion
+        itself is not drawn.</figcaption>
+    </figure>
+    <figure>
+      <div id="matrix-plot" class="plot"></div>
+      <figcaption id="cap-matrix">(3) The full four-port measurement at the chosen frequency.</figcaption>
+    </figure>
+    <figure class="wide">
+      <div id="sij-plot" class="plot"></div>
+      <figcaption id="cap-sij">(4) The selected entry across frequency.</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js?v=61dd411c7f"></script>
+</body>
+</html>

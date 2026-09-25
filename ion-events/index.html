@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ion Events at the Converter</title>
+<meta name="description" content="Every isolated ion the instrument's own 1 GS/s converter captured in one 4.2 s run: 23,759 pulses as one map, when they arrived, how their shapes differ, and the bursts that point to afterpulsing in the detector.">
+<meta name="supp:chapter" content="Appendix I">
+<meta name="supp:kind" content="measured">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css?v=456272f125">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Appendix I, peak measurement metric</p>
+    <h1>Ion events at the converter</h1>
+    <p class="lede">Every ion the instrument's own 1 GS/s converter picked out of one 4.2 s recording,
+      at the point of measurement in the ion-detection chain.</p>
+    <p class="status" id="status" role="status">Loading the events…</p>
+  </header>
+
+  <section class="explain" aria-labelledby="explain-h">
+    <h2 id="explain-h">What this page shows</h2>
+    <p>It asks: <strong>does every ion produce the same pulse, and if not, which ones differ and why?</strong></p>
+    <p>Each ion that reaches the detector gives a pulse a few nanoseconds long. The
+      recording holds 24,096 of them; the 23,759 that arrived on their own (nothing just before them) are
+      shown here, each as 32 samples lined up on its peak. Heights are in units of the baseline noise
+      (σ), because the converter's volts per code was not recorded.</p>
+    <table class="summary">
+      <thead><tr><th>Group</th><th>Events</th><th>Median height</th><th>What they are</th></tr></thead>
+      <tbody id="summary-body"></tbody>
+    </table>
+    <ul>
+      <li><strong>Almost every pulse has the same shape</strong>; they differ mainly in height, which is
+        set by the detector's gain statistics.</li>
+      <li><strong>Ions arrive in bursts far more often than chance allows</strong>: 161 runs of three or
+        more within 5 µs, against about nineteen expected. The first pulse of a burst is unusually large
+        and the ones after it are ordinary, which points to afterpulsing inside the detector rather than
+        anything at the sample.</li>
+      <li>Despite the run's name, <strong>there is no copper here and the gate was not modulating</strong>:
+        these are ions arriving at random, with no mass information.</li>
+    </ul>
+  </section>
+
+  <section class="controls" aria-label="View">
+    <div class="seg" role="radiogroup" aria-label="Order the map by">
+      <input type="radio" name="sort" id="s-time" value="time" checked><label for="s-time">in arrival order</label>
+      <input type="radio" name="sort" id="s-amp" value="amp"><label for="s-amp">by height</label>
+      <input type="radio" name="sort" id="s-z" value="z"><label for="s-z">most unusual shape first</label>
+    </div>
+    <div class="seg" role="radiogroup" aria-label="Scale">
+      <input type="radio" name="scale" id="sc-norm" value="norm" checked><label for="sc-norm">each pulse ÷ its peak</label>
+      <input type="radio" name="scale" id="sc-sig" value="sigma"><label for="sc-sig">height in σ</label>
+    </div>
+    <div class="toggles"><label><input type="checkbox" id="bursts-only"> only events in bursts</label></div>
+  </section>
+
+  <section class="readouts" aria-live="polite">
+    <div><span class="k">Events shown</span><span class="v mono" id="r-n">—</span></div>
+    <div><span class="k">Selected event</span><span class="v mono" id="r-sel">—</span></div>
+    <div><span class="k">Height · arrival</span><span class="v mono" id="r-amp">—</span></div>
+    <div><span class="k">Burst</span><span class="v mono" id="r-burst" style="font-size:14px">—</span></div>
+  </section>
+
+  <section class="panels">
+    <figure class="wide">
+      <div id="map-plot" class="plot tall"></div>
+      <figcaption id="cap-map">(1) Every event, one row each.</figcaption>
+    </figure>
+    <figure class="wide">
+      <div id="time-plot" class="plot"></div>
+      <figcaption>(2) When each event arrived across the 4.2 s recording, and how tall it was (log scale).
+        Grey: events on their own; gold: the first event of a burst; blue: the events that follow it.
+        Click a point to select it.</figcaption>
+    </figure>
+    <figure>
+      <div id="shape-plot" class="plot"></div>
+      <figcaption>(3) Pulse shape, reduced to its two main ways of varying. Events that sit together have
+        similar shapes; the scattered outliers are the unusual ones. Colours as in (2). Click to select.</figcaption>
+    </figure>
+    <figure>
+      <div id="event-plot" class="plot"></div>
+      <figcaption id="cap-event">(4) The selected event.</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js?v=c1fd1a07ef"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-/* Driver mismatch null -- supplementary page.
+/* JA4220 transformer -- supplementary page.
    Same tokens as the other pages. */
 :root {
   --ground: #f3f5f7;
@@ -163,3 +163,4 @@ table.summary th { color: var(--ink-soft); font-weight: 500; }
 table.summary td { font-family: var(--font-mono, monospace); }
 table.summary td.good { color: #1a9e77; }
 table.summary td.bad { color: var(--warn); }
+.plot.tall { height: 560px; }

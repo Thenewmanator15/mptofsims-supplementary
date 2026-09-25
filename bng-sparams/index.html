@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BNG S-Parameters</title>
+<meta name="description" content="Measured S-parameters of three fabricated Bradbury-Nielsen gates, 30 kHz to 4 GHz at full 10,001-point resolution: zoom the resonances, switch parameters, view on a Smith chart.">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Instrument Development I</p>
+    <h1>BNG S-parameters</h1>
+    <p class="lede">Three fabricated Bradbury–Nielsen gates measured on a vector network analyser from
+      30&nbsp;kHz to 4&nbsp;GHz: a blank laminate and two finger/gap geometries. Every one of the
+      10,001 points per sweep is here; zoom into a resonance, switch parameter, or read the
+      reflection on a Smith chart.</p>
+    <p class="status" id="status" role="status">Loading the sweeps…</p>
+  </header>
+
+  <section class="controls" aria-label="View">
+    <div class="seg" role="radiogroup" aria-label="Parameter">
+      <input type="radio" name="param" id="p-s11" value="s11" checked><label for="p-s11">S11</label>
+      <input type="radio" name="param" id="p-s21" value="s21"><label for="p-s21">S21</label>
+      <input type="radio" name="param" id="p-s12" value="s12"><label for="p-s12">S12</label>
+      <input type="radio" name="param" id="p-s22" value="s22"><label for="p-s22">S22</label>
+    </div>
+    <div class="seg" role="radiogroup" aria-label="Representation">
+      <input type="radio" name="view" id="v-db" value="db" checked><label for="v-db">Magnitude</label>
+      <input type="radio" name="view" id="v-deg" value="deg"><label for="v-deg">Phase</label>
+      <input type="radio" name="view" id="v-smith" value="smith"><label for="v-smith">Smith chart</label>
+    </div>
+    <div class="seg" role="radiogroup" aria-label="Frequency axis">
+      <input type="radio" name="axis" id="a-log" value="log" checked><label for="a-log">log f</label>
+      <input type="radio" name="axis" id="a-lin" value="linear"><label for="a-lin">linear f</label>
+    </div>
+    <div class="toggles" id="designs" role="group" aria-label="Designs"></div>
+  </section>
+
+  <section class="panels">
+    <figure class="wide">
+      <div id="main-plot" class="plot tall"></div>
+      <figcaption id="cap-main">Measured sweeps. Drag to zoom, double-click to reset; hover for values.</figcaption>
+    </figure>
+    <figure class="wide">
+      <div id="cst-plot" class="plot"></div>
+      <figcaption>30/50&nbsp;µm: measured S11 magnitude against the CST simulation. The measured port is the connector and the simulated port the feedline end, so resonant features shift between them.</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

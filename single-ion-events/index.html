@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Single-Ion Events</title>
+<meta name="description" content="All 152 measured single-ion detector pulses at once, raw and amplified: an event-by-time map sortable by height, width and gain, and the raw-to-amplified relation for every event.">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Appendix A, Method</p>
+    <h1>Single-ion events</h1>
+    <p class="lede">152 stray-ion pulses from the BioTOF detector, each captured twice at once: straight off
+      the detector and after its amplifier. See every event side by side as a map, sort them by height,
+      width or gain, and check how each raw pulse maps onto its amplified copy.</p>
+    <p class="status" id="status" role="status">Loading the events…</p>
+  </header>
+
+  <section class="controls" aria-label="View">
+    <div class="seg" role="radiogroup" aria-label="Channel">
+      <input type="radio" name="ch" id="ch-amp" value="amp" checked><label for="ch-amp">Amplified (C3)</label>
+      <input type="radio" name="ch" id="ch-raw" value="raw"><label for="ch-raw">Raw detector (C2)</label>
+    </div>
+    <div class="seg" role="radiogroup" aria-label="Scale">
+      <input type="radio" name="scale" id="sc-norm" value="norm" checked><label for="sc-norm">Peak-normalised</label>
+      <input type="radio" name="scale" id="sc-abs" value="abs"><label for="sc-abs">mV as recorded</label>
+    </div>
+    <label class="slider" for="sort" style="flex: 0 1 240px">
+      <span>Sort events by</span>
+      <select id="sort">
+        <option value="order">capture order</option>
+        <option value="amp_pk_mV">amplified peak</option>
+        <option value="raw_pk_mV">raw peak</option>
+        <option value="fwhm_ns">width (FWHM)</option>
+        <option value="gain">gain, amplified ÷ raw</option>
+      </select>
+    </label>
+    <div class="toggles"><label><input type="checkbox" id="mask"> hide clipped captures</label></div>
+  </section>
+
+  <section class="readouts" aria-live="polite">
+    <div><span class="k">Events shown</span><span class="v mono" id="r-n">—</span></div>
+    <div><span class="k">Selected event</span><span class="v mono" id="r-sel">—</span></div>
+    <div><span class="k">Peaks, raw / amplified</span><span class="v mono" id="r-pk">—</span></div>
+    <div><span class="k">Width · gain</span><span class="v mono" id="r-wg">—</span></div>
+  </section>
+
+  <section class="panels">
+    <figure class="wide">
+      <div id="map-plot" class="plot map"></div>
+      <figcaption id="cap-map">—</figcaption>
+    </figure>
+    <figure>
+      <div id="gain-plot" class="plot"></div>
+      <figcaption>(2) Raw against amplified peak for every event (log–log). Crosses touched an ADC rail on at least one channel. Click a point to select it.</figcaption>
+    </figure>
+    <figure>
+      <div id="pair-plot" class="plot"></div>
+      <figcaption id="cap-pair">(3) The selected event, raw and amplified, each normalised to its own peak.</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

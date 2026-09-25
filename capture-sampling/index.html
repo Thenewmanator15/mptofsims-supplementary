@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Capture Sample Rate</title>
+<meta name="description" content="Drag the digitiser's sample rate and phase over 152 measured single-ion pulses and see how much of the peak a 1 GS/s grid misses.">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Instrument Development II</p>
+    <h1>Capture sample rate</h1>
+    <p class="lede">A single-ion pulse is about 1.5&nbsp;ns wide. Sample it once a nanosecond and the
+      tallest sample can land well below the true peak, by how much depending on where the grid
+      falls. Move the rate and the phase over 152 measured pulses.</p>
+    <p class="status" id="status" role="status">Loading the pulses…</p>
+  </header>
+
+  <section class="controls" aria-label="Sampling">
+    <label class="slider" for="rate">
+      <span>Sample rate <output id="rate-out" class="mono">1.00 GS/s</output></span>
+      <input type="range" id="rate" min="0" max="1000" step="1" value="0">
+    </label>
+    <div class="presets" role="group" aria-label="Rate presets">
+      <button type="button" data-rate="1">1 GS/s (FMC121)</button>
+      <button type="button" data-rate="2.5">2.5 GS/s</button>
+      <button type="button" data-rate="5">5 GS/s</button>
+    </div>
+    <label class="slider" for="phase">
+      <span>Grid phase <output id="phase-out" class="mono">0.00</output> of a sample</span>
+      <input type="range" id="phase" min="0" max="1000" step="1" value="0">
+    </label>
+    <button type="button" id="worst">Worst phase</button>
+    <label class="slider" for="pulse" style="flex: 0 1 220px">
+      <span>Pulse</span>
+      <select id="pulse"></select>
+    </label>
+  </section>
+
+  <section class="readouts" aria-live="polite">
+    <div><span class="k">Samples per FWHM</span><span class="v mono" id="r-spf">—</span></div>
+    <div><span class="k">Peak height lost, this phase</span><span class="v mono" id="r-loss">—</span></div>
+    <div><span class="k">Worst over phase, this pulse</span><span class="v mono" id="r-worst">—</span></div>
+    <div><span class="k">Area error, this phase</span><span class="v mono" id="r-area">—</span></div>
+  </section>
+
+  <section class="panels">
+    <figure>
+      <div id="pulse-plot" class="plot"></div>
+      <figcaption id="cap-pulse">(a) The pulse on its 0.1&nbsp;ns grid, the samples a slower digitiser would take, and the tallest of them.</figcaption>
+    </figure>
+    <figure>
+      <div id="phase-plot" class="plot"></div>
+      <figcaption>(c) Over the grid phase, peak height (orange) swings while integrated area (blue) barely moves: a fixed-phase, deterministic clock biases height, and averaging cannot remove it.</figcaption>
+    </figure>
+    <figure class="wide">
+      <div id="rate-plot" class="plot"></div>
+      <figcaption>(b) Worst-case peak-height loss against sample rate: median and 10–90th percentile over the 152 captures (blue), and the selected pulse (orange).</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

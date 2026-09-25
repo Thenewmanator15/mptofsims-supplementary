@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Beam Blanking Sweeps</title>
+<meta name="description" content="Every July 2022 beam-blanking sweep at once: transmission against gate voltage for each drive configuration, energy label and session, and how the blanking voltage drifts from session to session.">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Results, Instrument Development I</p>
+    <h1>Beam blanking sweeps</h1>
+    <p class="lede">The Bradbury–Nielsen gate deflects the C60 beam off the Faraday cup as its voltage
+      rises. Every sweep of the July 2022 campaign is here at once: one row per sweep, voltage across,
+      transmission as colour. Change the drive configuration, sort by date or energy, and watch how
+      far the requirement moves from one session to the next.</p>
+    <p class="warn-box" id="energy-warn">Energies are the labels in the filenames. Some are known to be
+      wrong: see the notes below before reading an energy dependence off this page.</p>
+    <p class="status" id="status" role="status">Loading the sweeps…</p>
+  </header>
+
+  <section class="controls" aria-label="Selection">
+    <div class="seg" role="radiogroup" aria-label="Drive configuration">
+      <input type="radio" name="cfg" id="c-AB" value="AB" checked><label for="c-AB">AB (operated)</label>
+      <input type="radio" name="cfg" id="c-A" value="A"><label for="c-A">A alone</label>
+      <input type="radio" name="cfg" id="c-B" value="B"><label for="c-B">B alone</label>
+    </div>
+    <div class="seg" role="radiogroup" aria-label="Sort rows by">
+      <input type="radio" name="sort" id="s-date" value="date" checked><label for="s-date">by date</label>
+      <input type="radio" name="sort" id="s-energy" value="energy"><label for="s-energy">by energy label</label>
+    </div>
+    <div class="toggles" role="group" aria-label="Filters">
+      <label><input type="checkbox" id="q1" checked> C60⁺</label>
+      <label><input type="checkbox" id="q2" checked> C60²⁺</label>
+      <label><input type="checkbox" id="src-s" checked> "sort out" pile</label>
+      <label><input type="checkbox" id="src-c" checked> curated tree</label>
+      <label><input type="checkbox" id="floor-only"> only sweeps that reached their floor</label>
+    </div>
+  </section>
+
+  <section class="readouts" aria-live="polite">
+    <div><span class="k">Sweeps shown</span><span class="v mono" id="r-n">—</span></div>
+    <div><span class="k">Selected sweep</span><span class="v mono" id="r-sel" style="font-size:14px">click a row or point</span></div>
+    <div><span class="k">Its V₁₀ (10 % transmission)</span><span class="v mono" id="r-v10">—</span></div>
+    <div><span class="k">V₁₀ across its session and label</span><span class="v mono" id="r-peers">—</span></div>
+  </section>
+
+  <section class="panels">
+    <figure class="wide">
+      <div id="map-plot" class="plot map"></div>
+      <figcaption id="cap-map">(1) Transmission (current over its 0 V value, zero offset removed) for every sweep. Click a row to select it.</figcaption>
+    </figure>
+    <figure>
+      <div id="v10-plot" class="plot"></div>
+      <figcaption>(2) V₁₀ of each sweep that reached its floor, against the date it ran, coloured by energy label. Points at one label that move from date to date are the session drift.</figcaption>
+    </figure>
+    <figure>
+      <div id="curve-plot" class="plot"></div>
+      <figcaption id="cap-curve">(3) The selected sweep (gold) against the other sweeps of its session and label.</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

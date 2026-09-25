@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Beam-Current Averaging</title>
-<meta name="description" content="Scrub the averaging window over a measured picoammeter baseline and watch coherent interference integrate away faster than the square-root-of-N white-noise law.">
+<meta name="description" content="Scrub the averaging window over measured picoammeter baselines, 16 noise-survey conditions, and watch coherent interference integrate away faster than the square-root-of-N white-noise law.">
 <link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
 <link rel="stylesheet" href="style.css">
 <!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
@@ -15,13 +15,18 @@
   <header class="masthead">
     <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Appendix B</p>
     <h1>Beam-current averaging</h1>
-    <p class="lede">A picoammeter baseline on the BioTOF Faraday cup, averaged over a window of
-      <em>N</em> readings. White noise would fall as σ<sub>0</sub>/√<em>N</em>; this record falls
-      faster, because most of its noise is coherent interference that cancels within a window.</p>
+    <p class="lede">Picoammeter baselines on the BioTOF Faraday cup, averaged over a window of
+      <em>N</em> readings. White noise would fall as σ<sub>0</sub>/√<em>N</em>; where the noise is
+      coherent interference it cancels within a window and falls faster. Pick any of the 16 recorded
+      survey conditions; the page opens on the one in the thesis figure.</p>
     <p class="status" id="status" role="status">Loading the record…</p>
   </header>
 
   <section class="controls" aria-label="Averaging window">
+    <label class="slider" for="cond" style="flex: 1 1 360px; max-width: 560px">
+      <span>Condition</span>
+      <select id="cond"></select>
+    </label>
     <label class="slider" for="window">
       <span>Readings averaged, <em>N</em> <output id="n-out" class="mono">64</output></span>
       <input type="range" id="window" min="0" max="1000" step="1" value="0">
@@ -37,6 +42,10 @@
   </section>
 
   <section class="panels">
+    <figure class="wide">
+      <div id="survey" class="plot short"></div>
+      <figcaption>RMS noise of every recorded condition (log scale); the selected one is highlighted. Click a bar to select it.</figcaption>
+    </figure>
     <figure>
       <div id="trace" class="plot"></div>
       <figcaption id="cap-trace">(a) The record, mean removed, with the block means overlaid.</figcaption>

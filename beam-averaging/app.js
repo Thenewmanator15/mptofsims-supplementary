@@ -1,9 +1,10 @@
 // Beam-current averaging -- supplementary page.
-// Reads data.json written by ../reduce.py. The block RMS is the definition in
-// scripts/beam-current/analyze.py (block_rms): std of non-overlapping w-sample block means.
+// Reads data.json written by ../reduce.py: all 16 noise-survey conditions. The block RMS is the
+// definition in scripts/beam-current/analyze.py (block_rms): std of non-overlapping w-sample block
+// means. The page opens on Baseline_Noise, the record of the printed fig_averaging.
 "use strict";
 
-const state = { d: null, sig: null, sigma0: 0, curve: null, n: 64 };
+const state = { d: null, c: null, sig: null, sigma0: 0, curve: null, n: 64 };
 const $ = (id) => document.getElementById(id);
 const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
@@ -30,24 +31,22 @@ function blockMeans(a, w) {
 }
 const blockRms = (a, w) => { const m = blockMeans(a, w); return m ? std(m) : null; };
 
-// Slider position (0..1000) <-> N on a log scale from 1 to n_max, snapped to an integer.
-const toN = (pos) => Math.max(1, Math.round(10 ** ((pos / 1000) * Math.log10(state.d.n_max))));
-const toPos = (n) => Math.round((1000 * Math.log10(n)) / Math.log10(state.d.n_max));
+const nMax = () => Math.min(state.d.n_max, Math.floor(state.c.n / 2));
+const toN = (pos) => Math.max(1, Math.round(10 ** ((pos / 1000) * Math.log10(nMax()))));
+const toPos = (n) => Math.round((1000 * Math.log10(n)) / Math.log10(nMax()));
+const nameOf = (c) => (c.label ? `${c.label} — ${c.key}` : c.key);
 
-async function load() {
-  const res = await fetch("data.json");
-  if (!res.ok) throw new Error(`data.json: HTTP ${res.status}`);
-  const d = await res.json();
-  if (d.current_pA.length !== d.n) throw new Error("data.json: reading count does not match n");
-  state.d = d;
-  const mean = d.current_pA.reduce((s, v) => s + v, 0) / d.n;
-  state.sig = d.current_pA.map((v) => v - mean);
+function select(c) {
+  state.c = c;
+  const mean = c.current_pA.reduce((s, v) => s + v, 0) / c.n;
+  state.sig = c.current_pA.map((v) => v - mean);
   state.sigma0 = blockRms(state.sig, 1);
-  // every integer N on a fine log grid, like the static figure's `wins`
-  const ns = [...new Set(Array.from({ length: 400 }, (_, i) =>
-    Math.round(10 ** ((i / 399) * Math.log10(d.n_max)))))];
+  const top = nMax();
+  const ns = [...new Set(Array.from({ length: 400 }, (_, i) => Math.round(10 ** ((i / 399) * Math.log10(top)))))];
   state.curve = { ns, rms: ns.map((n) => blockRms(state.sig, n)) };
-  state.n = d.n_selected;
+  state.n = Math.min(state.n, top);
+  $("window").value = String(toPos(state.n));
+  $("cond").value = `${c.file}|${c.key}`;
 }
 
 function baseLayout() {
@@ -63,12 +62,28 @@ function baseLayout() {
 const config = { displaylogo: false, responsive: true,
   modeBarButtonsToRemove: ["toImage", "lasso2d", "select2d", "autoScale2d"] };
 
+function drawSurvey() {
+  const cs = [...state.d.conditions].sort((a, b) => a.rms_pA - b.rms_pA), base = baseLayout();
+  const sel = (c) => c === state.c;
+  Plotly.react($("survey"), [{
+    type: "bar", orientation: "h", x: cs.map((c) => c.rms_pA), y: cs.map((c, i) => i),
+    marker: { color: cs.map((c) => (sel(c) ? css("--gold") : css("--measured"))) },
+    customdata: cs.map((c) => `${c.file}|${c.key}`), text: cs.map((c) => `${c.rms_pA.toFixed(1)} pA`),
+    textposition: "outside", textfont: { color: css("--ink-soft"), size: 11 },
+    hovertemplate: "%{x:.2f} pA<extra></extra>",
+  }], { ...base, margin: { l: Math.min(400, 20 + 6.2 * Math.max(...cs.map((c) => (c.label || c.key).length))), r: 60, t: 8, b: 40 },
+    xaxis: { ...base.xaxis, type: "log", title: { text: "RMS noise (pA)" } },
+    yaxis: { ...base.yaxis, tickvals: cs.map((c, i) => i), ticktext: cs.map((c) => (c.label || c.key)),
+      automargin: true, tickfont: { size: 10 } },
+  }, { ...config, displayModeBar: false });
+}
+
 function drawTrace() {
-  const d = state.d, n = state.n, t = state.sig.map((_, i) => i * d.dt_s);
+  const c = state.c, n = state.n, t = state.sig.map((_, i) => i * c.dt_s);
   const means = blockMeans(state.sig, n) || [];
-  // block means as a step line: one flat segment per block, gaps between blocks
   const bx = [], by = [];
-  means.forEach((m, b) => { bx.push(b * n * d.dt_s, ((b + 1) * n - 1) * d.dt_s, null); by.push(m, m, null); });
+  means.forEach((m, b) => { bx.push(b * n * c.dt_s, ((b + 1) * n - 1) * c.dt_s, null); by.push(m, m, null); });
+  const lim = 1.1 * Math.max(...state.sig.map(Math.abs));
   const base = baseLayout();
   Plotly.react($("trace"), [
     // plain SVG, not scattergl: a WebGL canvas paints over SVG traces and hid the block means
@@ -78,9 +93,9 @@ function drawTrace() {
       hovertemplate: "%{y:.2f} pA<extra>block mean</extra>" },
   ], { ...base,
     xaxis: { ...base.xaxis, title: { text: "time from first reading (s)" } },
-    yaxis: { ...base.yaxis, title: { text: "stage current, mean removed (pA)" }, range: [-260, 260] },
+    yaxis: { ...base.yaxis, title: { text: "current, mean removed (pA)" }, range: [-lim, lim] },
   }, config);
-  $("cap-trace").textContent = `(a) The record, mean removed, with ${means.length} block means of `
+  $("cap-trace").textContent = `(a) ${nameOf(c)}: ${c.n} readings, mean removed, with ${means.length} block means of `
     + `${n} readings overlaid. Drag to zoom.`;
 }
 
@@ -103,53 +118,66 @@ function drawCurve() {
 }
 
 function readouts() {
-  const d = state.d, n = state.n, r = blockRms(state.sig, n), s0 = state.sigma0;
+  const c = state.c, n = state.n, r = blockRms(state.sig, n), s0 = state.sigma0;
   $("n-out").textContent = String(n);
-  $("r-time").textContent = `${(n * d.dt_s).toFixed(n * d.dt_s < 10 ? 2 : 1)} s`;
+  $("r-time").textContent = `${(n * c.dt_s).toFixed(n * c.dt_s < 10 ? 2 : 1)} s`;
   $("r-rms").textContent = r === null ? "—" : `${r.toFixed(2)} pA`;
   $("r-ideal").textContent = `${(s0 / Math.sqrt(n)).toFixed(2)} pA`;
   $("r-gain").textContent = r === null ? "—" : `${(s0 / r).toFixed(0)}× (√N: ${Math.sqrt(n).toFixed(1)}×)`;
+  $("status").textContent = `Measured · ${nameOf(c)} · σ₀ = ${s0.toFixed(1)} pA over ${c.n} readings, `
+    + `one every ~${(c.dt_s * 1e3).toFixed(0)} ms`;
 }
 
-function update() { readouts(); drawTrace(); drawCurve(); }
+function update(all = false) { readouts(); drawTrace(); drawCurve(); if (all) drawSurvey(); }
 
 function fillText() {
   const d = state.d, s = d.source;
+  const groups = {};
+  for (const c of d.conditions) (groups[c.file] ||= []).push(c);
+  $("cond").replaceChildren(...Object.entries(groups).map(([f, cs]) => {
+    const g = document.createElement("optgroup"); g.label = f;
+    g.append(...cs.map((c) => new Option(`${nameOf(c)} (${c.rms_pA.toFixed(1)} pA)`, `${c.file}|${c.key}`)));
+    return g;
+  }));
   $("caveats").replaceChildren(...d.caveats.map((c) => { const li = document.createElement("li"); li.textContent = c; return li; }));
-  const prov = [["Instrument", s.instrument], ["Record", `${s.file} · ${s.condition}`],
-    ["Readings", `${d.n} from ${s.first_reading} to ${s.last_reading}`], ["SHA-256", s.sha256],
+  const prov = [["Instrument", s.instrument], ...s.files.map((f) => ["Record", f]), ...Object.entries(s.sha256),
     ["Printed figure", s.static_figure], ["Analysis", s.analysis], ["Reduced by", s.reducer]];
   $("provenance").replaceChildren(...prov.flatMap(([k, v]) => {
     const dt = document.createElement("dt"); dt.textContent = k;
     const dd = document.createElement("dd"); dd.textContent = v;
     return [dt, dd];
   }));
-  $("status").textContent = `Measured · σ₀ = ${state.sigma0.toFixed(1)} pA over ${d.n} readings, `
-    + `one every ~${(d.dt_s * 1e3).toFixed(0)} ms`;
 }
+
+const find = (v) => state.d.conditions.find((c) => `${c.file}|${c.key}` === v);
 
 function wire() {
   const slider = $("window");
-  slider.value = String(toPos(state.n));
   slider.addEventListener("input", () => { state.n = toN(Number(slider.value)); update(); });
-  $("reset").addEventListener("click", () => {
-    state.n = state.d.n_selected; slider.value = String(toPos(state.n)); update();
-  });
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", update);
-  new MutationObserver(update).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  $("reset").addEventListener("click", () => { state.n = Math.min(state.d.n_selected, nMax()); slider.value = String(toPos(state.n)); update(); });
+  $("cond").addEventListener("change", (e) => { select(find(e.target.value)); update(true); });
+  $("survey").on("plotly_click", (ev) => { const c = find(ev.points[0].customdata); if (c) { select(c); update(true); } });
+  const redraw = () => update(true);
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redraw);
+  new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 }
 
 (async () => {
   try {
     if (typeof Plotly === "undefined") throw new Error("the plotting library did not load");
-    await load();
+    const res = await fetch("data.json");
+    if (!res.ok) throw new Error(`data.json: HTTP ${res.status}`);
+    state.d = await res.json();
+    for (const c of state.d.conditions) if (c.current_pA.length !== c.n) throw new Error(`${c.key}: reading count mismatch`);
     fillText();
+    state.n = state.d.n_selected;
+    select(find(state.d.default.join("|")));
+    update(true);
     wire();
-    update();
   } catch (err) {
     const s = $("status");
     s.classList.add("error");
-    s.textContent = `Could not load the record: ${err.message}. `
+    s.textContent = `Could not load the records: ${err.message}. `
       + "Open this page over HTTP (e.g. `py -m http.server` in site/), not as a file.";
   }
 })();

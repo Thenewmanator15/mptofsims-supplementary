@@ -131,3 +131,8 @@ figcaption { font-size: 13px; color: var(--ink-soft); margin-top: 6px; }
   .panels { grid-template-columns: 1fr; }
   .readouts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+select { font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid var(--rule); border-radius: 6px; background: var(--panel); color: var(--ink); max-width: 100%; }
+.panels .wide { grid-column: 1 / -1; }
+.plot.short { height: 380px; }
+.slider { min-width: 0; }
+.slider select { width: 100%; min-width: 0; text-overflow: ellipsis; }

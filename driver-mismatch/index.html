@@ -6,7 +6,7 @@
 <title>Driver Mismatch Null</title>
 <meta name="description" content="The BNG driver's two channels make pulses of slightly different width. This page shows the voltage at which that difference would vanish, for each symbol width, and whether the driver can reach it.">
 <link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
-<link rel="stylesheet" href="style.css?v=6bec55958a">
+<link rel="stylesheet" href="style.css?v=b1c47f3e51">
 <!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
 <script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
 </head>
@@ -15,12 +15,34 @@
   <header class="masthead">
     <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Instrument Development I, BNG driver</p>
     <h1>Driver mismatch null</h1>
-    <p class="lede">The gate needs its two driver channels to make identical pulses. They don't: one
-      pulse comes out wider than the other. That <em>mismatch</em> shrinks as the drive voltage rises,
-      so at some voltage it would reach zero. That voltage is the <em>null</em>. The question on this page
-      is whether the driver can reach it.</p>
+    <p class="lede">How far the BNG driver's two channels are from making identical pulses, and whether
+      any voltage the driver can deliver would match them.</p>
     <p class="status" id="status" role="status">Loading the measurements…</p>
   </header>
+
+  <section class="explain" aria-labelledby="explain-h">
+    <h2 id="explain-h">What this page shows</h2>
+    <p>It answers one question: <strong>can the driver be set so that its two channels make identical
+      pulses, at the pulse widths multiplexing needs?</strong></p>
+    <p>The gate is driven by two channels in opposite directions, and the drive only cancels cleanly if
+      both pulses are the same width. They are not: one comes out wider, by up to about 2.6 ns in these
+      measurements. That difference is the <em>mismatch</em>. It gets smaller as the drive voltage rises,
+      so a straight line through the measured points reaches zero at some voltage: the <em>null</em>, the
+      setting at which the two channels would match.</p>
+    <table class="summary">
+      <thead><tr><th>Symbol width</th><th>Null, untuned</th><th>Null, tuned</th><th>Reachable (≤ 80 V)?</th></tr></thead>
+      <tbody id="summary-body"></tbody>
+    </table>
+    <ul>
+      <li><strong>Tuning moves the null to a lower voltage</strong>; it does not remove the mismatch.</li>
+      <li><strong>Narrower pulses push the null higher.</strong> At 20 ns, the width multiplexing needs,
+        no voltage the driver can deliver matches the channels. That is one reason the driver cannot
+        multiplex cleanly (thesis figure <em>BNG driver mismatch null</em>).</li>
+      <li>A null above the highest voltage measured (about 79 V) is an extrapolation. Read the 20 ns
+        figures as "well beyond reach", not as precise voltages.</li>
+    </ul>
+    <p>The table follows the “Data options” below the plots; with the defaults it matches the printed figure.</p>
+  </section>
 
   <section class="controls" aria-label="Selection">
     <div class="seg" role="radiogroup" aria-label="Symbol width">
@@ -84,6 +106,6 @@
   </footer>
 </main>
 
-<script src="app.js?v=68a3128487"></script>
+<script src="app.js?v=97b3ca1855"></script>
 </body>
 </html>

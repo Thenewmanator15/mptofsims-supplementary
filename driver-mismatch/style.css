@@ -153,3 +153,13 @@ select { font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid va
 .plot.map { height: 480px; }
 .warn-box { border-left: 3px solid var(--warn); padding: 8px 12px; background: var(--panel); border-radius: 0 6px 6px 0; font-size: 14px; max-width: 80ch; }
 details.notes summary { cursor: pointer; font-weight: 600; margin-bottom: 8px; }
+.explain { max-width: 80ch; margin-block: 8px 20px; line-height: 1.55; }
+.explain h2 { font-size: 18px; margin-bottom: 6px; }
+.explain ul { padding-left: 20px; }
+.explain li { margin-block: 6px; }
+table.summary { border-collapse: collapse; margin-block: 12px; font-size: 14px; }
+table.summary th, table.summary td { padding: 6px 14px; text-align: left; border-bottom: 1px solid var(--plot-grid); }
+table.summary th { color: var(--ink-soft); font-weight: 500; }
+table.summary td { font-family: var(--font-mono, monospace); }
+table.summary td.good { color: #1a9e77; }
+table.summary td.bad { color: var(--warn); }

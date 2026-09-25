@@ -140,7 +140,25 @@ function readouts() {
   v.style.color = ok ? "#1a9e77" : css("--warn");
 }
 
-function update() { filter(); readouts(); drawFit(); drawNull(); drawSweep(); }
+function summary() {
+  const vmax = state.d.deliverable_V, un = groups()[0];
+  const tu = { has: (p) => p.session !== "2021-09-06" };          // pooled, as printed, whatever the split
+  const cell = (f) => (!f ? "—" : f.null ? `${f.null.toFixed(0)} V` : "never");
+  $("summary-body").replaceChildren(...[100, 50, 20].map((w) => {
+    const a = fitFor(un, w), b = fitFor(tu, w);
+    const reach = [a, b].map((f) => f && f.null && f.null <= vmax);
+    const verdict = reach[0] && reach[1] ? "yes" : reach[1] ? "yes, once tuned" : "no";
+    const tr = document.createElement("tr");
+    [`${w} ns`, cell(a), cell(b), verdict].forEach((t, i) => {
+      const td = document.createElement("td"); td.textContent = t;
+      if (i === 3) td.className = verdict === "no" ? "bad" : "good";
+      tr.append(td);
+    });
+    return tr;
+  }));
+}
+
+function update() { filter(); summary(); readouts(); drawFit(); drawNull(); drawSweep(); }
 function select(w) { state.w = w; const el = $(`w${w}`); if (el) el.checked = true; update(); }
 
 function fillText() {

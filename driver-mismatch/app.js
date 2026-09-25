@@ -171,7 +171,7 @@ function wire() {
 (async () => {
   try {
     if (typeof Plotly === "undefined") throw new Error("the plotting library did not load");
-    const res = await fetch("data.json");
+    const res = await fetch("data.json?v=508861a36e");
     if (!res.ok) throw new Error(`data.json: HTTP ${res.status}`);
     state.d = await res.json();
     fillText();

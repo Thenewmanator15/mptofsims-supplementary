@@ -10,7 +10,7 @@ function css(name) {
 }
 
 async function load() {
-  const [meta, grids] = await Promise.all(["meta.json", "grids.json"].map(async (f) => {
+  const [meta, grids] = await Promise.all(["meta.json?v=20281b863f", "grids.json?v=3826f80bf7"].map(async (f) => {
     const res = await fetch(f);
     if (!res.ok) throw new Error(`${f}: HTTP ${res.status}`);
     return res.json();

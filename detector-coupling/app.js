@@ -112,7 +112,7 @@ function wire() {
 (async () => {
   try {
     if (typeof Plotly === "undefined") throw new Error("the plotting library did not load");
-    const res = await fetch("data.json");
+    const res = await fetch("data.json?v=00112b4118");
     if (!res.ok) throw new Error(`data.json: HTTP ${res.status}`);
     state.d = await res.json();
     state.tr = state.d.traces.map((t) => unpack(t, state.d.step));

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BNG Driver Edges</title>
+<meta name="description" content="Measured output edges of the BNG gate driver across a 19-200 ns symbol-width sweep, and why its common-mode rejection falls with rate: channel matching, not bandwidth.">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Instrument Development I</p>
+    <h1>BNG driver edges</h1>
+    <p class="lede">The gate driver switches two outputs in opposition. Any mismatch between them leaves
+      a brief common-mode glitch at every transition, and the faster the symbols, the larger the share
+      of the record those glitches take. Step through the measured sweep and see the edges, and the
+      rejection they allow.</p>
+    <p class="status" id="status" role="status">Loading the sweep…</p>
+  </header>
+
+  <section class="controls" aria-label="View">
+    <label class="slider" for="width">
+      <span>Symbol width <output id="width-out" class="mono">19 ns</output></span>
+      <input type="range" id="width" min="0" max="12" step="1" value="0">
+    </label>
+    <div class="seg" role="radiogroup" aria-label="Edge">
+      <input type="radio" name="dir" id="d-rise" value="rise" checked><label for="d-rise">Rising edge</label>
+      <input type="radio" name="dir" id="d-fall" value="fall"><label for="d-fall">Falling edge</label>
+    </div>
+    <div class="toggles" role="group" aria-label="Traces">
+      <label><input type="checkbox" id="t-pos" checked> output +</label>
+      <label><input type="checkbox" id="t-neg" checked> output −</label>
+      <label><input type="checkbox" id="t-diff" checked> differential (+ minus −)</label>
+    </div>
+  </section>
+
+  <section class="readouts" aria-live="polite">
+    <div><span class="k">Symbol rate</span><span class="v mono" id="r-rate">—</span></div>
+    <div><span class="k">Common-mode rejection</span><span class="v mono" id="r-cmrr">—</span></div>
+    <div><span class="k">Differential overshoot</span><span class="v mono" id="r-over">—</span></div>
+    <div><span class="k">Settled to 5 % after</span><span class="v mono" id="r-settle">—</span></div>
+  </section>
+
+  <section class="panels">
+    <figure>
+      <div id="shape-plot" class="plot"></div>
+      <figcaption id="cap-shape">(1) Ensemble-averaged transitions, aligned on the 50&nbsp;% crossing and normalised to the step; bands are ±1&nbsp;SD across edges.</figcaption>
+    </figure>
+    <figure>
+      <div id="cmrr-plot" class="plot"></div>
+      <figcaption id="cap-cmrr">(2) Common-mode rejection against symbol rate: measured (filled) and predicted from the measured channel stagger alone (open), with one constant offset free.</figcaption>
+    </figure>
+    <figure class="wide">
+      <div id="metric-plot" class="plot short"></div>
+      <figcaption>(3) Differential overshoot (left axis) and time to settle within 5&nbsp;% (right axis) against symbol rate, rising and falling edges.</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

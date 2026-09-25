@@ -152,3 +152,4 @@ select { font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid va
 .plot.short { height: 300px; }
 .plot.map { height: 480px; }
 .warn-box { border-left: 3px solid var(--warn); padding: 8px 12px; background: var(--panel); border-radius: 0 6px 6px 0; font-size: 14px; max-width: 80ch; }
+details.notes summary { cursor: pointer; font-weight: 600; margin-bottom: 8px; }

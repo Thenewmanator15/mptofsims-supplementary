@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>C60 Impact MD</title>
+<meta name="description" content="Molecular-dynamics simulations of single 20 keV C60 impacts on the gate metals: sputtered atoms against time, by crystal face, angle, energy and electronic stopping, against the binary-collision lower bound.">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Appendix C</p>
+    <h1>C60 impact molecular dynamics</h1>
+    <p class="sim-badge">SIMULATION · not yet in the thesis text</p>
+    <p class="lede">A 20&nbsp;keV C60 carries 333&nbsp;eV per atom into the gate metal all at once. Binary-collision
+      codes, which follow one atom at a time, miss the collective thermal spike this drives; molecular
+      dynamics follows it. Choose a set of impacts and see how many atoms leave, and how that compares
+      with the binary-collision estimate.</p>
+    <p class="status" id="status" role="status">Loading the runs…</p>
+  </header>
+
+  <section class="controls" aria-label="Run set">
+    <label class="slider" for="set" style="flex: 1 1 420px; max-width: 640px">
+      <span>Set of impacts</span>
+      <select id="set"></select>
+    </label>
+    <div class="toggles" role="group" aria-label="Series">
+      <label><input type="checkbox" id="show-c"> show escaped carbon</label>
+    </div>
+  </section>
+
+  <section class="readouts" aria-live="polite">
+    <div><span class="k">MD yield, this set</span><span class="v mono" id="r-y">—</span></div>
+    <div><span class="k">Binary-collision range (RustBCA–SRIM)</span><span class="v mono" id="r-bca">—</span></div>
+    <div><span class="k">MD ÷ binary collision</span><span class="v mono" id="r-ratio">—</span></div>
+    <div><span class="k">Impacts in the set</span><span class="v mono" id="r-n">—</span></div>
+  </section>
+
+  <section class="panels">
+    <figure class="wide">
+      <div id="time-plot" class="plot"></div>
+      <figcaption id="cap-time">(1) Cumulative atoms crossing the escape plane against simulation time, one line per impact.</figcaption>
+    </figure>
+    <figure>
+      <div id="set-plot" class="plot"></div>
+      <figcaption>(2) Final yield of every impact, by set (points), with the RustBCA–SRIM range for the set's material and energy (bars). The codes model normal incidence on an amorphous target: the bars ignore crystal face, and none is drawn for the 65° set. The selected set is gold.</figcaption>
+    </figure>
+    <figure>
+      <div id="energy-plot" class="plot"></div>
+      <figcaption>(3) Cu yield against C60 energy: MD impacts (points) and the binary-collision codes (lines).</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

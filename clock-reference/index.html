@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clock Reference Jitter</title>
+<meta name="description" content="Measured jitter and Allan deviation of the instrument's 100 MHz clock reference: choose the integration band and see what the oscilloscope floor allows the measurement to say.">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Instrument Development II</p>
+    <h1>Clock reference jitter</h1>
+    <p class="lede">The digitiser and the gate are clocked from one 100&nbsp;MHz reference. Its timing
+      noise, measured on an oscilloscope, lands on the scope's own floor, so what follows bounds the
+      clock from above rather than measuring it. Move the integration band and watch the bound change.</p>
+    <p class="status" id="status" role="status">Loading the measurements…</p>
+  </header>
+
+  <section class="controls" aria-label="Integration band">
+    <label class="slider" for="lo">
+      <span>Band from <output id="lo-out" class="mono">12 kHz</output></span>
+      <input type="range" id="lo" min="0" max="1000" step="1" value="0">
+    </label>
+    <label class="slider" for="hi">
+      <span>to <output id="hi-out" class="mono">20 MHz</output></span>
+      <input type="range" id="hi" min="0" max="1000" step="1" value="1000">
+    </label>
+    <div class="presets" role="group" aria-label="Band presets">
+      <button type="button" id="band-std">12 kHz – 20 MHz (datasheet)</button>
+      <button type="button" id="band-all">Whole measured span</button>
+    </div>
+    <div class="seg" role="radiogroup" aria-label="Spectrum units">
+      <input type="radio" name="unit" id="u-L" value="L" checked><label for="u-L">L(f), dBc/Hz</label>
+      <input type="radio" name="unit" id="u-J" value="J"><label for="u-J">jitter density, fs/√Hz</label>
+    </div>
+  </section>
+
+  <section class="readouts" aria-live="polite">
+    <div><span class="k">+6 dBm output, in band</span><span class="v mono" id="r-1">—</span><span class="bound">upper bound</span></div>
+    <div><span class="k">+10 dBm output, in band</span><span class="v mono" id="r-2">—</span><span class="bound">upper bound</span></div>
+    <div><span class="k">Datasheet, oscillator + buffer, 12 kHz – 20 MHz</span><span class="v mono" id="r-spec">—</span></div>
+    <div><span class="k">Full-record TIE, RMS</span><span class="v mono" id="r-tie">—</span><span class="bound">upper bound</span></div>
+  </section>
+
+  <section class="panels">
+    <figure class="wide">
+      <div id="pn-plot" class="plot"></div>
+      <figcaption id="cap-pn">(1) Phase noise reconstructed from the time-interval-error record. The shaded band is integrated for the readouts above.</figcaption>
+    </figure>
+    <figure>
+      <div id="adev-plot" class="plot"></div>
+      <figcaption>(2) Overlapping Allan deviation. Both outputs follow the τ<sup>−1</sup> white-phase-noise line of the measurement floor; the star is the oscillator datasheet at 1&nbsp;s, drawn for scale, not measured.</figcaption>
+    </figure>
+    <figure>
+      <div id="hist-plot" class="plot"></div>
+      <figcaption>(3) Distribution of the time-interval error over each 0.5&nbsp;ms record.</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

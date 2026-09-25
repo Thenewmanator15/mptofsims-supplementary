@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vibration Spectra</title>
+<meta name="description" content="Measured vibration at the BioTOF modulator mounting: accelerometer and gyroscope spectra across five pump, fan and stand conditions, viewed as a heatmap, a 3D surface or lines.">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Appendix E</p>
+    <h1>Vibration spectra</h1>
+    <p class="lede">An accelerometer and gyroscope measuring the vibration the modulator mounting on the
+      BioTOF experiences, recorded under five conditions of turbo pump, cooling fan and stand. The data are four-dimensional: condition, sensor, axis and
+      frequency. Slice them two ways and view each slice as a map, a surface or lines.</p>
+    <p class="status" id="status" role="status">Loading the spectra…</p>
+  </header>
+
+  <section class="controls" aria-label="Slice">
+    <div class="seg" role="radiogroup" aria-label="Slice">
+      <input type="radio" name="slice" id="sl-cond" value="cond" checked><label for="sl-cond">Conditions × frequency</label>
+      <input type="radio" name="slice" id="sl-axis" value="axis"><label for="sl-axis">Axes × frequency</label>
+    </div>
+    <div class="seg" role="radiogroup" aria-label="Sensor">
+      <input type="radio" name="sensor" id="se-acc" value="acc" checked><label for="se-acc">Accelerometer</label>
+      <input type="radio" name="sensor" id="se-gyr" value="gyr"><label for="se-gyr">Gyroscope</label>
+    </div>
+    <label class="slider" for="fixed" style="flex: 0 1 260px">
+      <span id="fixed-label">Axis</span>
+      <select id="fixed"></select>
+    </label>
+    <div class="seg" role="radiogroup" aria-label="View">
+      <input type="radio" name="view" id="v-map" value="map" checked><label for="v-map">Map</label>
+      <input type="radio" name="view" id="v-surf" value="surf"><label for="v-surf">3D surface</label>
+      <input type="radio" name="view" id="v-line" value="line"><label for="v-line">Lines</label>
+    </div>
+  </section>
+
+  <section class="controls" aria-label="Frequency cursor">
+    <label class="slider" for="fcur" style="flex: 1 1 480px; max-width: 720px">
+      <span>Frequency cursor <output id="fcur-out" class="mono">100 Hz</output></span>
+      <input type="range" id="fcur" min="0" max="299" step="1" value="0">
+    </label>
+    <button type="button" id="f100">Go to 100 Hz (fan)</button>
+  </section>
+
+  <section class="panels">
+    <figure class="wide">
+      <div id="main-plot" class="plot tall"></div>
+      <figcaption id="cap-main">—</figcaption>
+    </figure>
+    <figure class="wide">
+      <div id="cut-plot" class="plot short"></div>
+      <figcaption id="cap-cut">—</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

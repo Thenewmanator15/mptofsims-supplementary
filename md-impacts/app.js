@@ -86,6 +86,27 @@ function drawEnergy() {
   }, config);
 }
 
+function drawMap() {
+  const d = state.d, base = baseLayout(), rows = [];
+  d.sets.forEach((set) => set.runs.forEach((r) => rows.push({ set, r })));
+  const tg = Array.from({ length: 121 }, (_, i) => i * 0.25);          // 0 - 30 ps
+  const z = rows.map(({ r }) => {
+    const s = d.series[r.run];                                         // cumulative tally: step-hold between thermo rows
+    return tg.map((t) => { let y = null; for (let k = 0; k < s.t.length && s.t[k] <= t; k++) y = s.Y[k]; return t > s.t[s.t.length - 1] ? null : y; });
+  });
+  const labels = rows.map(({ set, r }) => `${set.key === "noes" ? "no ES" : set.key} · ${r.run.replace("run_", "")}`);
+  const sel = rows.map(({ set }, i) => (set.key === state.key ? i : -1)).filter((i) => i >= 0);
+  Plotly.react($("map-plot"), [{ type: "heatmap", x: tg, y: rows.map((_, i) => i), z, colorscale: "Viridis", zmin: 0,
+    colorbar: { title: { text: "atoms escaped", side: "right" }, tickfont: { color: css("--ink-soft") } },
+    customdata: rows.map(({ set, r }) => tg.map(() => `${r.run} · ${set.label}`)), hoverongaps: false,
+    hovertemplate: "%{customdata}<br>%{x:.2f} ps: %{z} atoms<extra></extra>" }], { ...base, margin: { l: 110, r: 16, t: 10, b: 48 },
+    xaxis: { ...base.xaxis, title: { text: "simulation time (ps)" } },
+    yaxis: { ...base.yaxis, tickvals: rows.map((_, i) => i), ticktext: labels, autorange: "reversed", tickfont: { size: 11 } },
+    shapes: sel.length ? [{ type: "rect", xref: "paper", x0: 0, x1: 1, y0: sel[0] - 0.5, y1: sel[sel.length - 1] + 0.5, line: { color: css("--gold"), width: 2 } }] : [],
+  }, { ...config, displayModeBar: false });
+  state.mapRows = rows;
+}
+
 function readouts() {
   const s = current(), ys = s.runs.map((r) => r.Y), r = bcaRange(s.material, s.energy_keV, s.angle_deg), m = mean(ys);
   $("r-y").textContent = ys.length > 1 ? `${m.toFixed(0)} (${Math.min(...ys)}–${Math.max(...ys)})` : `${m.toFixed(0)}`;
@@ -94,7 +115,7 @@ function readouts() {
   $("r-n").textContent = String(ys.length);
 }
 
-function update() { readouts(); drawTime(); drawSets(); drawEnergy(); }
+function update() { readouts(); drawTime(); drawMap(); drawSets(); drawEnergy(); }
 
 function fillText() {
   const d = state.d, s = d.source;
@@ -114,6 +135,7 @@ function fillText() {
 function wire() {
   $("set").addEventListener("change", (e) => { state.key = e.target.value; update(); });
   $("show-c").addEventListener("change", drawTime);
+  $("map-plot").on("plotly_click", (ev) => { const row = state.mapRows[ev.points[0].y]; if (row) { state.key = row.set.key; $("set").value = state.key; update(); } });
   $("set-plot").on("plotly_click", (ev) => { const i = ev.points[0].x; state.key = state.d.sets[i].key; $("set").value = state.key; update(); });
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", update);
   new MutationObserver(update).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });

@@ -153,3 +153,4 @@ select { font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid va
 select { font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid var(--rule); border-radius: 6px; background: var(--panel); color: var(--ink); max-width: 100%; }
 .slider { min-width: 0; }
 .slider select { width: 100%; }
+.plot.tall { height: 520px; }

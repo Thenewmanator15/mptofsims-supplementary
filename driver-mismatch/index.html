@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Driver Mismatch Null</title>
+<meta name="description" content="Every September 2021 channel-width-mismatch measurement of the BNG driver at once: symbol width against delivered rail, where the mismatch crosses zero, and how that null moves with width, trim and session.">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Instrument Development I, BNG driver</p>
+    <h1>Driver mismatch null</h1>
+    <p class="lede">The two channels of the gate driver produce pulses of slightly different width, and
+      the difference changes sign as the drive voltage rises. The trim moves the voltage where it
+      crosses zero rather than removing it. Every measurement from the three September 2021 sessions
+      is here at once: symbol width against the rail the driver delivered, the mismatch as colour, and
+      the fitted crossing for each width.</p>
+    <p class="status" id="status" role="status">Loading the measurements…</p>
+  </header>
+
+  <section class="controls" aria-label="Selection">
+    <div class="seg" role="radiogroup" aria-label="Grouping">
+      <input type="radio" name="group" id="g-sess" value="session" checked><label for="g-sess">each session apart</label>
+      <input type="radio" name="group" id="g-print" value="printed"><label for="g-print">as printed (tuned sessions pooled)</label>
+    </div>
+    <div class="seg" role="radiogroup" aria-label="Repetition">
+      <input type="radio" name="rep" id="r-all" value="all" checked><label for="r-all">all repetitions</label>
+      <input type="radio" name="rep" id="r-100" value="100us"><label for="r-100">100 µs</label>
+      <input type="radio" name="rep" id="r-1ms" value="1ms"><label for="r-1ms">1 ms</label>
+    </div>
+    <label class="slider" for="width" style="flex: 0 1 200px">
+      <span>Symbol width</span>
+      <select id="width"></select>
+    </label>
+    <div class="toggles" role="group" aria-label="Filters">
+      <label><input type="checkbox" id="no-dup"> drop the 12 duplicated tables</label>
+      <label><input type="checkbox" id="no-cpl"> drop the 6 "coupled" 20 ns tables</label>
+    </div>
+  </section>
+
+  <section class="readouts" aria-live="polite">
+    <div><span class="k">Measurements shown</span><span class="v mono" id="r-n">—</span></div>
+    <div><span class="k">Selected width</span><span class="v mono" id="r-w">—</span></div>
+    <div><span class="k">Null at this width</span><span class="v mono" id="r-null" style="font-size:14px">—</span></div>
+    <div><span class="k">Mismatch range measured</span><span class="v mono" id="r-range">—</span></div>
+  </section>
+
+  <section class="panels">
+    <figure class="wide">
+      <div id="map-plot" class="plot map"></div>
+      <figcaption id="cap-map">(1) Every measurement: symbol width against rail, coloured by mismatch.</figcaption>
+    </figure>
+    <figure>
+      <div id="fit-plot" class="plot"></div>
+      <figcaption id="cap-fit">(2) Mismatch against rail at the selected width, with the straight-line fits.</figcaption>
+    </figure>
+    <figure>
+      <div id="null-plot" class="plot"></div>
+      <figcaption>(3) The fitted null against symbol width for each group. Shaded: up to 80 V, the range the printed figure calls deliverable. Click a point to select its width.</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

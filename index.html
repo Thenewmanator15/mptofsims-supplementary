@@ -3,35 +3,124 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MP-ToF-SIMS supplementary material</title>
+<title>MP-ToF-SIMS Supplementary Material</title>
+<meta name="description" content="Interactive figures and reduced data from the PhD thesis Efficient High Speed Modulation Techniques for a Sensing Application.">
 <link rel="stylesheet" href="vendor/fonts/9b0c309cc9/fonts.css">
 <style>
-  body { font-family: "IBM Plex Sans", system-ui, sans-serif; max-width: 70ch; margin: 0 auto;
-         padding: 32px 16px; line-height: 1.55; color: #17202a; background: #f3f5f7; }
-  @media (prefers-color-scheme: dark) { body { color: #e4e9ee; background: #10151b; } a { color: #e0b44a; } }
-  a { color: #7a5a0c; } li { margin-block: 12px; } span { opacity: .8; }
+:root { --ground: #f3f5f7; --panel: #ffffff; --ink: #17202a; --ink-soft: #52606d; --line: #dde3e9;
+  --gold: #a57a12; --measured: #2a6fb0; --sim: #8a4fb0; }
+@media (prefers-color-scheme: dark) { :root { --ground: #10151b; --panel: #171e26; --ink: #e4e9ee;
+  --ink-soft: #9aa7b4; --line: #26303b; --gold: #e0b44a; --measured: #6fa8e0; --sim: #c197e0; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); line-height: 1.55;
+  font-family: "IBM Plex Sans", system-ui, sans-serif; }
+.wrap { overflow-wrap: anywhere; max-width: 1120px; margin: 0 auto; padding: 40px 16px 56px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 6px; }
+h1 { font-family: "IBM Plex Sans Condensed", "IBM Plex Sans", sans-serif; font-weight: 600;
+  font-size: clamp(28px, 5vw, 42px); line-height: 1.1; margin: 0 0 12px; }
+h1::after { content: ""; display: block; width: 56px; height: 3px; background: var(--gold); margin-top: 14px; }
+.lede { max-width: 72ch; color: var(--ink-soft); margin: 0 0 14px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; margin: 0 0 8px; }
+.meta a, footer a { color: var(--gold); }
+.legend { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 13px; color: var(--ink-soft);
+  border-block: 1px solid var(--line); padding: 10px 0; margin: 22px 0 8px; }
+nav.toc { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; margin: 0 0 8px; }
+nav.toc a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dotted var(--ink-soft); }
+section.chapter { margin-top: 28px; }
+h2 { font-size: 15px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft);
+  margin: 0 0 10px; }
+h2 .n { font-weight: 400; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 12px; }
+a.card { display: flex; flex-direction: column; gap: 8px; padding: 16px 18px; background: var(--panel);
+  border: 1px solid var(--line); border-radius: 8px; color: inherit; text-decoration: none;
+  transition: border-color .15s, transform .15s; }
+a.card:hover, a.card:focus-visible { border-color: var(--gold); transform: translateY(-1px); outline: none; }
+.card h3 { font-size: 17px; margin: 0; }
+.card p { font-size: 14px; color: var(--ink-soft); margin: 0; flex: 1; }
+.card .go { font-size: 13px; color: var(--gold); }
+.badge { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; width: fit-content; }
+.badge.measured { color: var(--measured); }
+.badge.simulation { color: var(--sim); }
+.badge.both { color: var(--ink-soft); }
+footer { border-top: 1px solid var(--line); margin-top: 40px; padding-top: 16px; font-size: 14px; color: var(--ink-soft); }
+footer p { margin: 6px 0; max-width: 80ch; }
 </style>
 </head>
 <body>
-<h1>Supplementary material: interactive figures</h1>
-<p>Interactive versions of figures from the PhD thesis on multiplexed time-of-flight SIMS.
-The thesis PDF is the examined record and carries a static version of each; these pages add
-what print cannot. Every page states whether its data are measured or illustrative.</p>
-<ul>
-  <li><a href="beam-averaging/">Beam-Current Averaging</a><br><span>Scrub the averaging window over measured picoammeter baselines, 16 noise-survey conditions, and watch coherent interference integrate away faster than the square-root-of-N white-noise law.</span></li>
-  <li><a href="beam-blanking/">Beam Blanking Sweeps</a><br><span>Every July 2022 beam-blanking sweep at once: transmission against gate voltage for each drive configuration, energy label and session, and how the blanking voltage drifts from session to session.</span></li>
-  <li><a href="bng-height/">BNG Die Topography</a><br><span>Interactive height map of a Bradbury-Nielsen gate die, measured on a Keyence VHX-5000 by depth-from-focus.</span></li>
-  <li><a href="bng-sparams/">BNG S-Parameters</a><br><span>Measured S-parameters of three fabricated Bradbury-Nielsen gates, 30 kHz to 4 GHz at full 10,001-point resolution: zoom the resonances, switch parameters, view on a Smith chart.</span></li>
-  <li><a href="capture-sampling/">Capture Sample Rate</a><br><span>Drag the digitiser&#x27;s sample rate and phase over 152 measured single-ion pulses and see how much of the peak a 1 GS/s grid misses.</span></li>
-  <li><a href="clock-reference/">Clock Reference Jitter</a><br><span>Measured jitter and Allan deviation of the instrument&#x27;s 100 MHz clock reference: choose the integration band and see what the oscilloscope floor allows the measurement to say.</span></li>
-  <li><a href="detector-coupling/">Detector Coupling</a><br><span>Measured coupling from the gate-drive channels into the ion-detector output, across clip-on chokes and star grounding, and between the two gate electrodes.</span></li>
-  <li><a href="driver-edges/">BNG Driver Edges</a><br><span>Measured output edges of the BNG gate driver across a 19-200 ns symbol-width sweep, and why its common-mode rejection falls with rate: channel matching, not bandwidth.</span></li>
-  <li><a href="driver-mismatch/">Driver Mismatch Null</a><br><span>The BNG driver&#x27;s two channels make pulses of slightly different width. This page shows the voltage at which that difference would vanish, for each symbol width, and whether the driver can reach it.</span></li>
-  <li><a href="md-impacts/">C60 Impact MD</a><br><span>Molecular-dynamics simulations of single 20 keV C60 impacts on the gate metals: sputtered atoms against time, by crystal face, angle, energy and electronic stopping, against the binary-collision lower bound.</span></li>
-  <li><a href="multiplex-acquisition/">Multiplexed Acquisition</a><br><span>Simulation on measured BioTOF parameters: when does Hadamard-multiplexed acquisition beat pulsed, and what does excess noise cost? Move the spectral occupancy and compare noise models.</span></li>
-  <li><a href="single-ion-events/">Single-Ion Events</a><br><span>All 152 measured single-ion detector pulses at once, raw and amplified: an event-by-time map sortable by height, width and gain, and the raw-to-amplified relation for every event.</span></li>
-  <li><a href="vibration-psd/">Vibration Spectra</a><br><span>Measured vibration at the BioTOF modulator mounting: accelerometer and gyroscope spectra across five pump, fan and stand conditions, viewed as a heatmap, a 3D surface or lines.</span></li>
-</ul>
-<p><a href="vendor/LICENSES.txt">Third-party licences</a> (Plotly, MIT; IBM Plex, SIL OFL 1.1).</p>
+<main class="wrap">
+<p class="eyebrow">PhD thesis · The University of Manchester · supplementary material</p>
+<h1>Interactive figures</h1>
+<p class="lede">Figures from the thesis <em>Efficient High Speed Modulation Techniques for a Sensing
+Application</em> (multiplexed time-of-flight SIMS), with the data behind them. Each page lets you explore
+what a printed figure can only show one slice of, and says what it shows, where its data came from and
+what to check before quoting a number. The thesis PDF remains the examined record.</p>
+<p class="meta"><span>Mathew P. Newman</span>
+<a href="https://doi.org/10.5281/zenodo.22967918">doi:10.5281/zenodo.22967918</a>
+<a href="https://github.com/Thenewmanator15/mptofsims-supplementary">source and data</a></p>
+<div class="legend"><span class="badge measured">Measured</span> laboratory data (10 pages)
+<span class="badge simulation">Simulation</span> computed, not measured <span class="badge both">Measured + simulation</span> both, side by side</div>
+<nav class="toc" aria-label="Chapters"><a href="#method">Method</a> <a href="#instrument-development-i">Instrument Development I</a> <a href="#instrument-development-ii">Instrument Development II</a> <a href="#results">Results</a> <a href="#appendix-a">Appendix A</a> <a href="#appendix-b">Appendix B</a> <a href="#appendix-c">Appendix C</a> <a href="#appendix-e">Appendix E</a></nav>
+<section class="chapter" id="method">
+<h2>Method <span class="n">· 2</span></h2>
+<div class="grid">
+<a class="card" href="detector-coupling/"><span class="badge measured">Measured</span><h3>Detector Coupling</h3><p>Measured coupling from the gate-drive channels into the ion-detector output, across clip-on chokes and star grounding, and between the two gate electrodes.</p><span class="go">Open the figure →</span></a>
+<a class="card" href="multiplex-acquisition/"><span class="badge simulation">Simulation</span><h3>Multiplexed Acquisition</h3><p>Simulation on measured BioTOF parameters: when does Hadamard-multiplexed acquisition beat pulsed, and what does excess noise cost? Move the spectral occupancy and compare noise models.</p><span class="go">Open the figure →</span></a>
+</div>
+</section>
+<section class="chapter" id="instrument-development-i">
+<h2>Instrument Development I <span class="n">· 4</span></h2>
+<div class="grid">
+<a class="card" href="bng-height/"><span class="badge measured">Measured</span><h3>BNG Die Topography</h3><p>Interactive height map of a Bradbury-Nielsen gate die, measured on a Keyence VHX-5000 by depth-from-focus.</p><span class="go">Open the figure →</span></a>
+<a class="card" href="driver-edges/"><span class="badge measured">Measured</span><h3>BNG Driver Edges</h3><p>Measured output edges of the BNG gate driver across a 19-200 ns symbol-width sweep, and why its common-mode rejection falls with rate: channel matching, not bandwidth.</p><span class="go">Open the figure →</span></a>
+<a class="card" href="bng-sparams/"><span class="badge both">Measured + simulation</span><h3>BNG S-Parameters</h3><p>Measured S-parameters of three fabricated Bradbury-Nielsen gates, 30 kHz to 4 GHz at full 10,001-point resolution: zoom the resonances, switch parameters, view on a Smith chart.</p><span class="go">Open the figure →</span></a>
+<a class="card" href="driver-mismatch/"><span class="badge measured">Measured</span><h3>Driver Mismatch Null</h3><p>The BNG driver&#x27;s two channels make pulses of slightly different width. This page shows the voltage at which that difference would vanish, for each symbol width, and whether the driver can reach it.</p><span class="go">Open the figure →</span></a>
+</div>
+</section>
+<section class="chapter" id="instrument-development-ii">
+<h2>Instrument Development II <span class="n">· 2</span></h2>
+<div class="grid">
+<a class="card" href="capture-sampling/"><span class="badge measured">Measured</span><h3>Capture Sample Rate</h3><p>Drag the digitiser&#x27;s sample rate and phase over 152 measured single-ion pulses and see how much of the peak a 1 GS/s grid misses.</p><span class="go">Open the figure →</span></a>
+<a class="card" href="clock-reference/"><span class="badge measured">Measured</span><h3>Clock Reference Jitter</h3><p>Measured jitter and Allan deviation of the instrument&#x27;s 100 MHz clock reference: choose the integration band and see what the oscilloscope floor allows the measurement to say.</p><span class="go">Open the figure →</span></a>
+</div>
+</section>
+<section class="chapter" id="results">
+<h2>Results <span class="n">· 1</span></h2>
+<div class="grid">
+<a class="card" href="beam-blanking/"><span class="badge measured">Measured</span><h3>Beam Blanking Sweeps</h3><p>Every July 2022 beam-blanking sweep at once: transmission against gate voltage for each drive configuration, energy label and session, and how the blanking voltage drifts from session to session.</p><span class="go">Open the figure →</span></a>
+</div>
+</section>
+<section class="chapter" id="appendix-a">
+<h2>Appendix A <span class="n">· 1</span></h2>
+<div class="grid">
+<a class="card" href="single-ion-events/"><span class="badge measured">Measured</span><h3>Single-Ion Events</h3><p>All 152 measured single-ion detector pulses at once, raw and amplified: an event-by-time map sortable by height, width and gain, and the raw-to-amplified relation for every event.</p><span class="go">Open the figure →</span></a>
+</div>
+</section>
+<section class="chapter" id="appendix-b">
+<h2>Appendix B <span class="n">· 1</span></h2>
+<div class="grid">
+<a class="card" href="beam-averaging/"><span class="badge measured">Measured</span><h3>Beam-Current Averaging</h3><p>Scrub the averaging window over measured picoammeter baselines, 16 noise-survey conditions, and watch coherent interference integrate away faster than the square-root-of-N white-noise law.</p><span class="go">Open the figure →</span></a>
+</div>
+</section>
+<section class="chapter" id="appendix-c">
+<h2>Appendix C <span class="n">· 1</span></h2>
+<div class="grid">
+<a class="card" href="md-impacts/"><span class="badge simulation">Simulation</span><h3>C60 Impact MD</h3><p>Molecular-dynamics simulations of single 20 keV C60 impacts on the gate metals: sputtered atoms against time, by crystal face, angle, energy and electronic stopping, against the binary-collision lower bound.</p><span class="go">Open the figure →</span></a>
+</div>
+</section>
+<section class="chapter" id="appendix-e">
+<h2>Appendix E <span class="n">· 1</span></h2>
+<div class="grid">
+<a class="card" href="vibration-psd/"><span class="badge measured">Measured</span><h3>Vibration Spectra</h3><p>Measured vibration at the BioTOF modulator mounting: accelerometer and gyroscope spectra across five pump, fan and stand conditions, viewed as a heatmap, a 3D surface or lines.</p><span class="go">Open the figure →</span></a>
+</div>
+</section>
+<footer>
+<p>Cite as: Newman, M. P. (2026). <em>Supplementary material (interactive figures) for the PhD thesis
+“Efficient High Speed Modulation Techniques for a Sensing Application”</em>. Zenodo.
+<a href="https://doi.org/10.5281/zenodo.22967918">https://doi.org/10.5281/zenodo.22967918</a></p>
+<p>Pages and data: CC BY 4.0. Bundled third-party code keeps its own licence:
+<a href="vendor/LICENSES.txt">Plotly (MIT), IBM Plex (SIL OFL 1.1)</a>.</p>
+</footer>
+</main>
 </body>
 </html>

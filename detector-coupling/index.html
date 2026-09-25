@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Detector Coupling</title>
+<meta name="description" content="Measured coupling from the gate-drive channels into the ion-detector output, across clip-on chokes and star grounding, and between the two gate electrodes.">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Method, Instrument Development I</p>
+    <h1>Detector coupling</h1>
+    <p class="lede">The gate driver swings tens of volts a few centimetres from a detector that counts
+      single ions. How much of the drive reaches the detector output directly, and does a choke or a
+      star ground change it? Pick any combination of the twelve measured configurations.</p>
+    <p class="status" id="status" role="status">Loading the sweeps…</p>
+  </header>
+
+  <section class="controls" aria-label="Configurations">
+    <div class="group"><span>Drive channel</span><div class="toggles">
+      <label><input type="checkbox" id="c-A"> A</label>
+      <label><input type="checkbox" id="c-B" checked> B</label></div></div>
+    <div class="group"><span>Clip-on chokes</span><div class="toggles">
+      <label><input type="checkbox" id="k-0" checked> none</label>
+      <label><input type="checkbox" id="k-1"> one</label>
+      <label><input type="checkbox" id="k-2"> two</label></div></div>
+    <div class="group"><span>Star ground</span><div class="toggles">
+      <label><input type="checkbox" id="s-1" checked> connected</label>
+      <label><input type="checkbox" id="s-0" checked> not connected</label></div></div>
+    <div class="group"><span>Trace</span><div class="toggles">
+      <label><input type="checkbox" id="smooth" checked> 51-point rolling mean (as printed)</label></div></div>
+  </section>
+
+  <section class="readouts" aria-live="polite">
+    <div><span class="k">Configurations shown</span><span class="v mono" id="r-n">—</span></div>
+    <div><span class="k">Median coupling, 1 MHz – 1 GHz</span><span class="v mono" id="r-med">—</span></div>
+    <div><span class="k">Spread between shown medians</span><span class="v mono" id="r-spread">—</span></div>
+    <div><span class="k">Electrode A ↔ B capacitance (fit)</span><span class="v mono" id="r-cm">—</span></div>
+  </section>
+
+  <section class="panels">
+    <figure class="wide">
+      <div id="s21-plot" class="plot tall"></div>
+      <figcaption>(1) |S21| from the selected drive channels into the detector output. The legend names each configuration by channel, chokes and star ground.</figcaption>
+    </figure>
+    <figure class="wide">
+      <div id="ab-plot" class="plot"></div>
+      <figcaption id="cap-ab">(2) The two gate electrodes against each other, three grounding arrangements, with the capacitive slope of the series-C fit (dashed).</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

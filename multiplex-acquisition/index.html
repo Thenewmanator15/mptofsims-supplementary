@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Multiplexed Acquisition</title>
+<meta name="description" content="Simulation on measured BioTOF parameters: when does Hadamard-multiplexed acquisition beat pulsed, and what does excess noise cost? Move the spectral occupancy and compare noise models.">
+<link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
+<link rel="stylesheet" href="style.css">
+<!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
+<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <p class="eyebrow">MP-ToF-SIMS thesis · supplementary material · Method</p>
+    <h1>Multiplexed acquisition</h1>
+    <p class="sim-badge">SIMULATION on measured instrument parameters</p>
+    <p class="lede">A pulsed gate opens once per flight time; a Hadamard (maximum-length) gate is open
+      half the time and the spectrum is recovered by inverting the code. It admits ~1,000× more ions,
+      but whether the recovered peak is better depends on how full the spectrum is. Move the
+      occupancy and see where the advantage inverts.</p>
+    <p class="status" id="status" role="status">Loading the simulation results…</p>
+  </header>
+
+  <section class="controls" aria-label="Occupancy">
+    <label class="slider" for="occ">
+      <span>Spectral occupancy <output id="occ-out" class="mono">0.020</output></span>
+      <input type="range" id="occ" min="0" max="1000" step="1" value="0">
+    </label>
+    <div class="toggles" role="group" aria-label="Monte Carlo noise models">
+      <label><input type="checkbox" id="m-shot" checked> shot noise (F = 1)</label>
+      <label><input type="checkbox" id="m-fano" checked> excess noise (F = 20)</label>
+      <label><input type="checkbox" id="m-beam" checked> F = 20 + beam modulation</label>
+    </div>
+  </section>
+
+  <section class="readouts" aria-live="polite">
+    <div><span class="k">Multiplex gain (closed form)</span><span class="v mono" id="r-gain">—</span></div>
+    <div><span class="k">Verdict at this occupancy</span><span class="v" id="r-verdict">—</span></div>
+    <div><span class="k">Time to equal SNR, pulsed ÷ Hadamard</span><span class="v mono" id="r-time">—</span></div>
+    <div><span class="k">Monte Carlo uncertainty per point</span><span class="v mono" id="r-se">—</span></div>
+  </section>
+
+  <section class="panels">
+    <figure>
+      <div id="gain-plot" class="plot"></div>
+      <figcaption>(1) Gain in peak SNR, Hadamard over pulsed, against how full the spectrum is. Line: closed form √((N+1)/(2N·occupancy)). Points: Monte Carlo, ±1 standard error. The noise models agree: excess noise cancels in the ratio.</figcaption>
+    </figure>
+    <figure>
+      <div id="snr-plot" class="plot"></div>
+      <figcaption>(2) But excess noise is not harmless: absolute peak SNR against acquisition time at ~2 % occupancy. F = 20 costs both modes √20 ≈ 4.5×. Solid F = 1, dashed F = 20.</figcaption>
+    </figure>
+    <figure class="wide">
+      <div id="spec-plot" class="plot"></div>
+      <figcaption>(3) Recovered spectra at equal acquisition time (10<sup>6</sup> frames, ~205 s) with F = 20 and beam modulation, on a shared count axis. Click a legend entry to hide a trace; drag to zoom.</figcaption>
+    </figure>
+    <figure class="wide">
+      <div id="gate-plot" class="plot short"></div>
+      <figcaption>(4) The first 64 chips of each gate pattern (100 ns per chip): pulsed opens once, the maximum-length sequence about half the time.</figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <h2>Read this before quoting a number</h2>
+    <ul id="caveats"></ul>
+  </section>
+
+  <section class="notes">
+    <h2>What was measured and what was simulated</h2>
+    <div class="table-wrap">
+      <table class="params">
+        <thead><tr><th>parameter</th><th>value</th><th>what it is</th><th>basis</th></tr></thead>
+        <tbody id="params"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="prov">
+    <h2>Provenance</h2>
+    <dl id="provenance"></dl>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

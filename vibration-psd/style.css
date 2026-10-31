@@ -150,3 +150,7 @@ select { font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid va
 select { font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid var(--rule); border-radius: 6px; background: var(--panel); color: var(--ink); }
 .slider { min-width: 0; }
 .plot.short { height: 300px; }
+
+/* Moved here from style= attributes in index.html, which the page's Content Security Policy blocks. */
+.slider.slider-fixed { flex: 0 1 260px; }
+.slider.slider-fcur { flex: 1 1 480px; max-width: 720px; }

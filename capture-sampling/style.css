@@ -135,3 +135,6 @@ select { font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid va
   .panels { grid-template-columns: 1fr; }
   .readouts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* Moved here from style= attributes in index.html, which the page's Content Security Policy blocks. */
+.slider.slider-pulse { flex: 0 1 220px; }

@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-hashes' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-AR/cKIZjWPcPmBUPDA6oti9XBiTbJvz0Cro2J1VzzS8=' 'sha256-S+l+cz1wXqs2B0FcjqqT7NvjwGmhD1UjJswXjlSkj0s=' 'sha256-gG0b4ixT/IQUp7JJLbyKcpYcYDjq2Wp8NGv3f+aasqo='; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>C60 Impact MD</title>
 <meta name="description" content="Molecular-dynamics simulations of single 20 keV C60 impacts on the gate metals: sputtered atoms against time, by crystal face, angle, energy and electronic stopping, against the binary-collision lower bound.">
 <meta name="supp:chapter" content="Appendix C">
 <meta name="supp:kind" content="simulation">
 <link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
-<link rel="stylesheet" href="style.css?v=7ee0192aab">
+<link rel="stylesheet" href="style.css?v=0155588934">
 <!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
-<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script src="../vendor/js/plotly.js-strict-dist-min@2.35.2/plotly-strict.min.js"></script>
 </head>
 <body>
 <main class="page">
@@ -26,7 +27,7 @@
   </header>
 
   <section class="controls" aria-label="Run set">
-    <label class="slider" for="set" style="flex: 1 1 420px; max-width: 640px">
+    <label class="slider slider-set" for="set">
       <span>Set of impacts</span>
       <select id="set"></select>
     </label>

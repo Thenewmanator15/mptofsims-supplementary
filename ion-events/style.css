@@ -164,3 +164,6 @@ table.summary td { font-family: var(--font-mono, monospace); }
 table.summary td.good { color: #1a9e77; }
 table.summary td.bad { color: var(--warn); }
 .plot.tall { height: 560px; }
+
+/* Moved here from style= attributes in index.html, which the page's Content Security Policy blocks. */
+#r-burst { font-size: 14px; }

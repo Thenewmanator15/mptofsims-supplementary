@@ -136,3 +136,6 @@ select { font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid va
 .plot.short { height: 380px; }
 .slider { min-width: 0; }
 .slider select { width: 100%; min-width: 0; text-overflow: ellipsis; }
+
+/* Moved here from style= attributes in index.html, which the page's Content Security Policy blocks. */
+.slider.slider-cond { flex: 1 1 360px; max-width: 560px; }

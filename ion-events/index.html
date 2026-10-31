@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-hashes' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-AR/cKIZjWPcPmBUPDA6oti9XBiTbJvz0Cro2J1VzzS8=' 'sha256-S+l+cz1wXqs2B0FcjqqT7NvjwGmhD1UjJswXjlSkj0s=' 'sha256-gG0b4ixT/IQUp7JJLbyKcpYcYDjq2Wp8NGv3f+aasqo='; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ion Events at the Converter</title>
 <meta name="description" content="Every isolated ion the instrument's own 1 GS/s converter captured in one 4.2 s run: 23,759 pulses as one map, when they arrived, how their shapes differ, and the bursts that point to afterpulsing in the detector.">
 <meta name="supp:chapter" content="Appendix I">
 <meta name="supp:kind" content="measured">
 <link rel="stylesheet" href="../vendor/fonts/9b0c309cc9/fonts.css">
-<link rel="stylesheet" href="style.css?v=456272f125">
+<link rel="stylesheet" href="style.css?v=1c4ae9bca2">
 <!-- Pinned: bump deliberately and re-check the page (see ../README.md). -->
-<script src="../vendor/js/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script src="../vendor/js/plotly.js-strict-dist-min@2.35.2/plotly-strict.min.js"></script>
 </head>
 <body>
 <main class="page">
@@ -62,7 +63,7 @@
     <div><span class="k">Events shown</span><span class="v mono" id="r-n">—</span></div>
     <div><span class="k">Selected event</span><span class="v mono" id="r-sel">—</span></div>
     <div><span class="k">Height · arrival</span><span class="v mono" id="r-amp">—</span></div>
-    <div><span class="k">Burst</span><span class="v mono" id="r-burst" style="font-size:14px">—</span></div>
+    <div><span class="k">Burst</span><span class="v mono" id="r-burst">—</span></div>
   </section>
 
   <section class="panels">

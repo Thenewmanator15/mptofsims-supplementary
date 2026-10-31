@@ -154,3 +154,6 @@ select { font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid va
 .slider { min-width: 0; }
 .slider select { width: 100%; }
 .plot.tall { height: 520px; }
+
+/* Moved here from style= attributes in index.html, which the page's Content Security Policy blocks. */
+.slider.slider-set { flex: 1 1 420px; max-width: 640px; }

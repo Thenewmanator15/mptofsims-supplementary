@@ -163,3 +163,6 @@ table.summary th { color: var(--ink-soft); font-weight: 500; }
 table.summary td { font-family: var(--font-mono, monospace); }
 table.summary td.good { color: #1a9e77; }
 table.summary td.bad { color: var(--warn); }
+
+/* Moved here from style= attributes in index.html, which the page's Content Security Policy blocks. */
+.controls.controls-plain { border: 0; padding-left: 0; }

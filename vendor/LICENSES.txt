@@ -1,6 +1,6 @@
-plotly.js-dist-min@2.35.2
-=========================
-Source: https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/LICENSE
+plotly.js-strict-dist-min@2.35.2
+================================
+Source: https://cdn.jsdelivr.net/npm/plotly.js-strict-dist-min@2.35.2/LICENSE
 
 The MIT License (MIT)
 
